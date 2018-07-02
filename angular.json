@@ -23,9 +23,13 @@
               "src/assets"
             ],
             "styles": [
+              "./semantic/dist/semantic.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.slim.js",
+              "./semantic/dist/semantic.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -74,7 +78,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": [
+
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"

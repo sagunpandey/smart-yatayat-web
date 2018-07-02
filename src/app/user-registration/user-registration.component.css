@@ -1,0 +1,5 @@
+#password-fields,
+#email-fields,
+#phone-field {
+  max-width: 80%;
+}
