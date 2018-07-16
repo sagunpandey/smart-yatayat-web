@@ -1,0 +1,25 @@
+<div class="ui secondary pointing menu">
+  <a class="item" [class.active]="selectedTab === 1" (click)="onTabSelect(1)">
+    User Details
+  </a>
+  <a class="item" [class.active]="selectedTab === 2" (click)="onTabSelect(2)">
+    Bus Status
+  </a>
+  <a class="item" [class.active]="selectedTab === 3" (click)="onTabSelect(3)">
+    Merchant
+  </a>
+  <div class="right menu">
+    <a class="ui item" routerLink="/login"><i class="sign out alternate icon"></i> Logout</a>
+  </div>
+</div>
+<div class="ui segment" style="padding: 50px; max-height: 800px; overflow-y: scroll;">
+  <div [hidden]="selectedTab !== 1">
+    <app-user-config [user]="user"></app-user-config>
+  </div>
+  <div [hidden]="selectedTab !== 2">
+    <app-bus-status-page></app-bus-status-page>
+  </div>
+  <div [hidden]="selectedTab !== 3">
+    <app-merchant-page></app-merchant-page>
+  </div>
+</div>

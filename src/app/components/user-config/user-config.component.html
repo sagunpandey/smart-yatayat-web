@@ -1,0 +1,135 @@
+<div class="ui one column grid">
+  <div class="column">
+    <div class="ui raised segment">
+      <div class="ui red ribbon label">Overview</div>
+      <div style="padding: 20px">
+        <div class="ui segment">
+          <form [formGroup]="infoFormGroup" class="ui form">
+            <div class="three fields">
+              <div class="required field">
+                <label>First name</label>
+                <input type="text"
+                       formControlName="firstName"
+                       name="firstName"
+                       placeholder="First Name">
+              </div>
+              <div class="field">
+                <label>Middle name</label>
+                <input type="text"
+                       name="middleName"
+                       placeholder="Middle Name">
+              </div>
+              <div class="required field">
+                <label>Last name</label>
+                <input type="text"
+                       formControlName="lastName"
+                       name="lastName"
+                       placeholder="Last Name">
+              </div>
+            </div>
+
+            <div class="field" id="phone-field">
+              <label>Phone</label>
+              <input type="number"
+                     name="phone"
+                     placeholder="Phone">
+            </div>
+
+            <div class="ui primary button" tabindex="0" (click)="onInfoUpdate()">Update User Details</div>
+          </form>
+        </div>
+
+        <div class="ui segment">
+          <form [formGroup]="emailFormGroup" class="ui form">
+            <div class="grouped fields">
+              <div class="required field">
+                <label>Email</label>
+                <input type="email"
+                       formControlName="email"
+                       name="email"
+                       placeholder="Email">
+              </div>
+              <div class="field">
+                <label>Confirm Email</label>
+                <input type="email"
+                       formControlName="confirmEmail"
+                       placeholder="Confirm Email"
+                       name="confirmEmail">
+              </div>
+            </div>
+
+            <div class="ui primary button" type="submit" tabindex="0" (click)="onEmailUpdate()">Update Email Address</div>
+          </form>
+        </div>
+
+        <div class="ui segment">
+          <form [formGroup]="passwordFormGroup" class="ui form">
+            <div class="grouped fields">
+              <div class="field">
+                <label>Old Password</label>
+                <input type="password"
+                       formControlName="oldPassword"
+                       name="oldPassword"
+                       placeholder="Old Password">
+              </div>
+              <div class="field">
+                <label>New Password</label>
+                <input type="password"
+                       formControlName="newPassword"
+                       name="newPassword"
+                       placeholder="New Password">
+              </div>
+              <div class="field">
+                <label>Confirm Password</label>
+                <input type="password" placeholder="Confirm Password">
+              </div>
+            </div>
+
+            <div class="ui primary button" type="submit" tabindex="0" (click)="onPasswordUpdate()">Update Password</div>
+          </form>
+        </div>
+      </div>
+      <div class="ui blue ribbon label">Smart Cards</div>
+      <div style="padding: 20px">
+        <table class="ui fixed table">
+          <thead>
+          <tr>
+            <th>Card #ID</th>
+            <th>PIN Code</th>
+            <th>Status</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let card of user?.userRfids" [ngClass]="{'disabled error':card?.active === 0}">
+            <td>{{card?.rfid?.rfidId}}</td>
+            <td>
+              <div class="ui two column grid">
+                <div class="column">
+                  <div [ngClass]="{'disabled':card?.active === 0}" class="ui input">
+                    <input type="text"
+                           [ngModel]="card?.rfid?.pin"
+                           name="pinCode"
+                           placeholder="Pin Code">
+                  </div>
+                </div>
+                <div class="column" style="padding-left: 50px;">
+                  <div class="ui vertical animated button"
+                       [ngClass]="{'primary':card?.active === 1, 'disabled':card?.active === 0}"
+                       tabindex="0">
+                    <div class="hidden content">Save</div>
+                    <div class="visible content">
+                      <i class="save icon"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td *ngIf="card?.active === 1; else deactivated">Active</td>
+            <ng-template #deactivated><td><i class="attention icon"></i>Deactivated</td></ng-template>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

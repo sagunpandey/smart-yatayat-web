@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthenticationService} from '../services/authentication.service';
+import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
@@ -23,7 +23,7 @@ export class LoginScreenComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username: ['admin@smart-yatayat.com', Validators.required],
+      username: ['sag.pan@gmail.com', Validators.required],
       password: ['yatayat123', Validators.required]
     });
 
