@@ -16,12 +16,14 @@ export class AuthenticationService {
   login(username: string, password: string) {
     return this.http.post(this.globals.baseUrl + '/user/login', { username: username, password: password })
       .pipe(map((data: Token) => {
-        localStorage.setItem('currentUser', data['token']);
+        localStorage.setItem('token', data['token']);
+        localStorage.setItem('currentUser', data['username']);
         return data['token'];
       }));
   }
 
   logout() {
+    localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
   }
 }

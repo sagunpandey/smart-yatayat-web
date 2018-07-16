@@ -1,32 +1,30 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {User} from '../models/user';
+import {Globals} from '../config/globals';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
+  constructor(
+    private http: HttpClient,
+    private globals: Globals) { }
 
-  constructor(private http: HttpClient) { }
+  getByUsername(username: string): Observable<any> {
+    const httpParams = new HttpParams()
+      .set('username', username);
 
-  getAll() {
-    return this.http.get<User[]>('');
-  }
-
-  getById(id: number) {
-    return this.http.get('');
+    return this.http.get(this.globals.baseUrl + '/user', {params: httpParams});
   }
 
   register(user: User) {
-    return this.http.post('', user);
+    return this.http.post(this.globals.baseUrl + '/user', user);
   }
 
   update(user: User) {
-    return this.http.put('', user);
-  }
-
-  delete(id: number) {
-    return this.http.delete('');
+    return this.http.put(this.globals.baseUrl + '/user', user);
   }
 }

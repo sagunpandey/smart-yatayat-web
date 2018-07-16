@@ -6,13 +6,10 @@ import {Observable} from 'rxjs';
 export class BasicAuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser && currentUser.token) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Basic ${currentUser.token}`
-        }
-      });
+
+    const token = localStorage.getItem('token');
+    if (token) {
+      request = request.clone({ headers: request.headers.set('Authorization', 'Basic ' + token) });
     }
 
     return next.handle(request);
