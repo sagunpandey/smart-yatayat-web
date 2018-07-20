@@ -23,12 +23,12 @@
               "src/assets"
             ],
             "styles": [
-              "./semantic/dist/semantic.min.css",
+              "semantic/dist/semantic.min.css",
               "src/styles.css"
             ],
             "scripts": [
-              "./node_modules/jquery/dist/jquery.slim.js",
-              "./semantic/dist/semantic.min.js"
+              "node_modules/jquery/dist/jquery.min.js",
+              "semantic/dist/semantic.min.js"
             ]
           },
           "configurations": {
