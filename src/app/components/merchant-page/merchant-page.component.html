@@ -11,7 +11,7 @@
   <div class="row">
     <div class="ui center aligned icon header">
       <i class="circular user icon"></i>
-      <h2>Shital Pandey</h2>
+      <h2>{{fullName || '-'}}</h2>
     </div>
   </div>
   <div class="row">
@@ -19,7 +19,7 @@
       <div class="nine wide column">
         <div class="ui huge label">
           Available Balance :
-          <div class="detail">NRS 20</div>
+          <div class="detail">{{user?.balance}}</div>
         </div>
       </div>
       <div class="column" style="padding-left: 50px;">
@@ -52,23 +52,10 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td>1</td>
-        <td>Active</td>
-        <td>
-          <div class="ui icon buttons">
-            <button class="ui button">
-              <i class="edit icon"></i>
-            </button>
-            <button class="ui button">
-              <i class="trash alternate icon"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-      <tr class="disabled">
-        <td>2</td>
-        <td class="error"><i class="attention icon"></i> Deactivated</td>
+      <tr *ngFor="let card of user?.userRfids" [ngClass]="{'disabled error':card?.active === 0}">
+        <td>{{card?.rfid?.rfidId}}</td>
+        <td *ngIf="card?.active === 1; else deactivated">Active</td>
+        <ng-template #deactivated><td><i class="attention icon"></i>Deactivated</td></ng-template>
         <td>
           <div class="ui icon buttons">
             <button class="ui button">

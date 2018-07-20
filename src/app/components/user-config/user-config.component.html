@@ -3,6 +3,11 @@
     <div class="ui raised segment">
       <div class="ui red ribbon label">Overview</div>
       <div style="padding: 20px">
+        <div class="ui huge label">
+          Available Balance :
+          <div class="detail">{{user?.balance}}</div>
+        </div>
+
         <div class="ui segment">
           <form [formGroup]="infoFormGroup" class="ui form">
             <div class="three fields">
