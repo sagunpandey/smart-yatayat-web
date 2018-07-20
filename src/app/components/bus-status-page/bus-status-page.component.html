@@ -2,33 +2,26 @@
   <div class="column">
     <table class="ui celled structured table">
       <thead>
-      <tr>
-        <th rowspan="2">Bus Number</th>
-        <th rowspan="2">Total Passengers</th>
-        <th rowspan="2">Availability</th>
-        <th colspan="2">Last Checkpoint</th>
-      </tr>
-      <tr>
-        <th>Checkpoint</th>
-        <th>Left At</th>
-      </tr>
-
+        <tr>
+          <th rowspan="2">Bus Number</th>
+          <th rowspan="2">Total Passengers</th>
+          <th rowspan="2">Availability</th>
+          <th colspan="2">Last Checkpoint</th>
+        </tr>
+        <tr>
+          <th>Checkpoint</th>
+          <th>Left At</th>
+        </tr>
       </thead>
       <tbody>
-      <tr>
-        <td>1563</td>
-        <td>20</td>
-        <td>0 Seats 2 Stands</td>
-        <td>Checkpoint A</td>
-        <td>5:30pm</td>
-      </tr>
-      <tr>
-        <td>7000</td>
-        <td>25</td>
-        <td class="error">FULL</td>
-        <td>Checkpoint B</td>
-        <td>5:45pm</td>
-      </tr>
+        <tr *ngFor="let busStatus of busStatuses">
+          <td>{{busStatus?.busNumber}}</td>
+          <td>{{busStatus?.totalPassengers}}</td>
+          <td *ngIf="busStatus?.availability !== 'FULL'; else full">{{busStatus?.availability}}</td>
+          <ng-template #full><td class="error"><i class="attention icon"></i>{{busStatus?.availability}}</td></ng-template>
+          <td>{{busStatus?.checkpoint}}</td>
+          <td>{{busStatus?.time}}</td>
+        </tr>
       </tbody>
     </table>
   </div>

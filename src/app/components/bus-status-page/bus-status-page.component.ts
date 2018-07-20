@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {BusService} from '../../services/bus.service';
+import {BusStatus} from '../../models/bus';
 
 @Component({
   selector: 'app-bus-status-page',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BusStatusPageComponent implements OnInit {
 
-  constructor() { }
+  busStatuses: BusStatus[];
+
+  constructor(private busService: BusService) { }
 
   ngOnInit() {
+    this.getBusStatus();
   }
 
+  getBusStatus() {
+    this.busService.getAllBusStatusForCheckpointExit()
+      .subscribe((data) => {
+        this.busStatuses = data;
+      });
+  }
 }
