@@ -26,4 +26,16 @@ export class AuthenticationService {
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
   }
+
+  isLoggedIn() {
+    return !!(this.getCurrentUserToken() && this.getCurrentUserName());
+  }
+
+  getCurrentUserName() {
+    return localStorage.getItem('currentUser');
+  }
+
+  getCurrentUserToken() {
+    return localStorage.getItem('token');
+  }
 }
