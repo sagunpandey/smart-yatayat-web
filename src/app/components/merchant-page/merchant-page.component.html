@@ -25,8 +25,8 @@
       <div class="column" style="padding-left: 50px;">
         <div class="ui labeled action input">
           <div class="ui label">NRS</div>
-          <input type="text" placeholder="Amount">
-          <div class="ui basic vertical animated button" tabindex="0">
+          <input #balance type="text" placeholder="Amount">
+          <div class="ui basic vertical animated button" (click)="onBalanceUpdate(balance.value)">
             <div class="hidden content">Add</div>
             <div class="visible content">
               <i class="add icon"></i>
@@ -37,7 +37,7 @@
     </div>
   </div>
   <div class="row">
-    <button class="ui basic button">
+    <button class="ui basic button" (click)="onAddCardClicked()">
       <i class="icon add"></i>
       Add Card
     </button>
@@ -58,10 +58,10 @@
         <ng-template #deactivated><td><i class="attention icon"></i>Deactivated</td></ng-template>
         <td>
           <div class="ui icon buttons">
-            <button class="ui button">
+            <button (click)="onEditCardClicked(card)" class="ui button" [ngClass]="{'primary':card?.active === 1, 'disabled':card?.active === 0}">
               <i class="edit icon"></i>
             </button>
-            <button class="ui button">
+            <button (click)="onDeactivateCard(card)" class="ui button" [ngClass]="{'red':card?.active === 1, 'disabled':card?.active === 0}">
               <i class="trash alternate icon"></i>
             </button>
           </div>
@@ -71,3 +71,57 @@
     </table>
   </div>
 </div>
+
+<div class="ui modal">
+  <div class="ui icon header">
+    <i class="id card outline icon"></i>
+    {{cardModalTitle}}
+  </div>
+
+  <div class="content">
+    <form [formGroup]="cardForm" class="ui form">
+      <div class="field">
+        <label>Tag 1</label>
+        <input type="text"
+               formControlName="tag0"
+               placeholder="Tag 0">
+      </div>
+      <div class="field">
+        <label>Tag 2</label>
+        <input type="text"
+               formControlName="tag1"
+               placeholder="Tag 1">
+      </div>
+      <div class="field">
+        <label>Tag 3</label>
+        <input type="text"
+               formControlName="tag2"
+               placeholder="Tag 2">
+      </div>
+      <div class="field">
+        <label>Tag 4</label>
+        <input type="text"
+               formControlName="tag3"
+               placeholder="Tag 0">
+      </div>
+      <div class="field">
+        <label>Pin Code</label>
+        <input type="text"
+               formControlName="pin"
+               placeholder="Pin Code">
+      </div>
+    </form>
+  </div>
+
+  <div class="actions">
+    <div class="ui red basic cancel button">
+      <i class="remove icon"></i>
+      Cancel
+    </div>
+    <div class="ui green ok button">
+      <i class="checkmark icon"></i>
+      Submit
+    </div>
+  </div>
+</div>
+

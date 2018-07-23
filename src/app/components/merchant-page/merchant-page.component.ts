@@ -1,7 +1,9 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Globals} from '../../config/globals';
 import {AuthenticationService} from '../../services/authentication.service';
-import {User} from '../../models/user';
+import {Rfid, User, UserRfid} from '../../models/user';
+import {UserService} from '../../services/user.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 declare var $: any;
 
 @Component({
@@ -13,11 +15,50 @@ export class MerchantPageComponent implements OnInit, AfterViewInit {
 
   user: User;
 
+  cardModalTitle = 'ADD/UPDATE CARD';
+  cardToEdit: UserRfid;
+  cardForm: FormGroup;
+
   constructor(
     private globals: Globals,
-    private authenticationService: AuthenticationService) { }
+    private authenticationService: AuthenticationService,
+    private userService: UserService,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    const self = this;
+    $('.ui.modal')
+      .modal({
+        closable: true,
+        onDeny    : function() {
+          return true;
+        },
+        onApprove : function() {
+          if (self.cardToEdit) {
+            self.cardToEdit.rfid = self.cardForm.value;
+
+            self.updateCard(self.cardToEdit);
+          } else {
+            const user = new User();
+            user.userInfoId = self.user.userInfoId;
+
+            const userRfid =  new UserRfid();
+            userRfid['userInfo'] = user;
+            userRfid.rfid = self.cardForm.value;
+
+            self.addCard(userRfid);
+            return false;
+          }
+        }
+      });
+
+    this.cardForm = this.formBuilder.group({
+      tag0: [null, Validators.required],
+      tag1: [null, Validators.required],
+      tag2: [null, Validators.required],
+      tag3: [null, Validators.required],
+      pin: [null, Validators.required]
+    });
   }
 
   ngAfterViewInit() {
@@ -87,6 +128,72 @@ export class MerchantPageComponent implements OnInit, AfterViewInit {
           return false;
         },
       });
+  }
+
+  onAddCardClicked() {
+    this.cardToEdit = null;
+    this.openCardModal();
+  }
+
+  onEditCardClicked(card: UserRfid) {
+    this.cardToEdit = card;
+    this.cardForm.patchValue(card.rfid);
+    this.openCardModal();
+  }
+
+  openCardModal() {
+    if (this.user) {
+      $('.ui.modal').modal('show');
+    }
+  }
+
+  onBalanceUpdate(balance: any) {
+    if (this.user) {
+      const newBalance = Number(balance);
+      const oldBalance = Number(this.user.balance);
+
+      this.user.balance = oldBalance + newBalance;
+
+      this.userService.update(this.user)
+        .subscribe((data) => {
+          window.alert('User balance updated');
+          Object.assign(data);
+        });
+    }
+  }
+
+  onDeactivateCard(card: UserRfid) {
+    if (card.active = 0) {
+      card.active = 1;
+    } else if (card.active = 1) {
+      card.active = 0;
+    }
+
+    this.updateCard(card);
+  }
+
+  updateCard(card: UserRfid) {
+    this.userService.updateCard(card)
+      .subscribe((data) => {
+        window.alert('Card Updated');
+        this.clearCardToEdit();
+        $('.ui.modal').modal('hide');
+      }, (error) => {
+        this.clearCardToEdit();
+      });
+  }
+
+  addCard(card: UserRfid) {
+    this.userService.addCard(card)
+      .subscribe((data) => {
+        window.alert('Card Added');
+      });
+  }
+
+  clearCardToEdit() {
+    if (this.cardToEdit) {
+      this.cardToEdit = null;
+    }
   }
 
   get fullName(): string {

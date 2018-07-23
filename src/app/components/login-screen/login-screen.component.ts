@@ -11,8 +11,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class LoginScreenComponent implements OnInit {
 
   loginForm: FormGroup;
-  loading = false;
-  submitted = false;
   returnUrl: string;
 
   constructor(
@@ -35,18 +33,13 @@ export class LoginScreenComponent implements OnInit {
   get f() { return this.loginForm.controls; }
 
   onSubmit() {
-    console.log('Submitted');
-    this.submitted = true;
-
     if (this.loginForm.invalid) {
       return;
     }
 
-    this.loading = true;
     this.authenticationService.login(this.f.username.value, this.f.password.value)
       .subscribe(
         (data) => {
-          console.log('Login Successful');
           this.router.navigate([this.returnUrl]);
         },
         (error) => {

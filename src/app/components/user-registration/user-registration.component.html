@@ -1,48 +1,60 @@
 <div class="ui segment" id="registration-box">
-  <form class="ui form">
+  <form [formGroup]="registrationForm" class="ui error form">
     <div class="three fields">
       <div class="required field">
         <label>First name</label>
-        <input type="text" placeholder="First Name">
+        <input type="text" formControlName="firstName" placeholder="First Name">
       </div>
       <div class="field">
         <label>Middle name</label>
-        <input type="text" placeholder="Middle Name">
+        <input type="text" formControlName="middleName" placeholder="Middle Name">
       </div>
       <div class="required field">
         <label>Last name</label>
-        <input type="text" placeholder="Last Name">
+        <input type="text" formControlName="lastName" placeholder="Last Name">
       </div>
     </div>
 
     <div class="grouped fields" id="password-fields">
       <div class="required field">
         <label>Password</label>
-        <input type="password" placeholder="Password">
+        <input type="password" formControlName="password" placeholder="Password">
       </div>
       <div class="required field">
         <label>Confirm Password</label>
-        <input type="password" placeholder="Confirm Password">
+        <input type="password" formControlName="confirmPassword" placeholder="Confirm Password">
       </div>
     </div>
 
     <div class="grouped fields" id="email-fields">
       <div class="required field">
         <label>Email</label>
-        <input type="email" placeholder="Email">
+        <input type="email" formControlName="email" placeholder="Email">
       </div>
       <div class="required field">
         <label>Confirm Email</label>
-        <input type="email" placeholder="Confirm Email">
+        <input type="email" formControlName="confirmEmail" placeholder="Confirm Email">
       </div>
     </div>
 
     <div class="field" id="phone-field">
       <label>Phone</label>
-      <input type="password" placeholder="Phone">
+      <input type="text" formControlName="phone" placeholder="Phone">
     </div>
 
-    <div class="ui primary button" tabindex="0">Submit</div>
+    <div type="submit" [class.disabled]="!registrationForm.valid || registrationForm.pristine" class="ui primary button" (click)="onSubmit()">Submit</div>
+
+    <div class="ui error message" style="text-align: left">
+      <p *ngIf="f.firstName?.errors?.required && f.firstName?.touched">First name field is required</p>
+      <p *ngIf="f.lastName?.errors?.required && f.lastName?.touched">Last name field is required</p>
+      <p *ngIf="f.email?.errors?.required && f.email?.touched">Email field is required</p>
+      <p *ngIf="f.email?.errors?.email && f.email?.touched">Email field is not of email type</p>
+      <p *ngIf="f.confirmEmail?.errors?.required && f.confirmEmail?.touched">Confirm Email field is required</p>
+      <p *ngIf="registrationForm?.errors?.doesMatchEmail && !f.confirmEmail?.errors?.required && f.confirmEmail?.touched">Confirm Email field doesn't match with Email field</p>
+      <p *ngIf="f.password?.errors?.required && f.password?.touched">Password field is required</p>
+      <p *ngIf="f.confirmPassword?.errors?.required && f.confirmPassword?.touched">Confirm Password field is required</p>
+      <p *ngIf="registrationForm?.errors?.doesMatchPassword && !f.confirmPassword?.errors?.required && f.confirmPassword?.touched">Confirm Password field doesn't match with Password field</p>
+    </div>
   </form>
 </div>
 

@@ -9,7 +9,7 @@
         </div>
 
         <div class="ui segment">
-          <form [formGroup]="infoFormGroup" class="ui form">
+          <form [formGroup]="infoFormGroup" class="ui error form">
             <div class="three fields">
               <div class="required field">
                 <label>First name</label>
@@ -21,6 +21,7 @@
               <div class="field">
                 <label>Middle name</label>
                 <input type="text"
+                       formControlName="middleName"
                        name="middleName"
                        placeholder="Middle Name">
               </div>
@@ -35,17 +36,23 @@
 
             <div class="field" id="phone-field">
               <label>Phone</label>
-              <input type="number"
+              <input type="text"
+                     formControlName="phone"
                      name="phone"
                      placeholder="Phone">
             </div>
 
-            <div class="ui primary button" tabindex="0" (click)="onInfoUpdate()">Update User Details</div>
+            <div [class.disabled]="!infoFormGroup.valid || infoFormGroup.pristine" class="ui primary button" (click)="onInfoUpdate()">Update User Details</div>
+
+            <div class="ui error message" style="text-align: left">
+              <p *ngIf="ifc.firstName?.errors?.required && ifc.firstName?.touched">First name field is required</p>
+              <p *ngIf="ifc.lastName?.errors?.required && ifc.lastName?.touched">Last name field is required</p>
+            </div>
           </form>
         </div>
 
         <div class="ui segment">
-          <form [formGroup]="emailFormGroup" class="ui form">
+          <form [formGroup]="emailFormGroup" class="ui error form">
             <div class="grouped fields">
               <div class="required field">
                 <label>Email</label>
@@ -63,34 +70,43 @@
               </div>
             </div>
 
-            <div class="ui primary button" type="submit" tabindex="0" (click)="onEmailUpdate()">Update Email Address</div>
+            <div [class.disabled]="!emailFormGroup.valid" class="ui primary button" type="submit" (click)="onEmailUpdate()">Update Email Address</div>
+
+            <div class="ui error message" style="text-align: left">
+              <p *ngIf="efc.email?.errors?.required && efc.email?.touched">Email field is required</p>
+              <p *ngIf="efc.email?.errors?.email && efc.email?.touched">Email field is not of email type</p>
+              <p *ngIf="efc.confirmEmail?.errors?.required && efc.confirmEmail?.touched">Confirm Email field is required</p>
+              <p *ngIf="emailFormGroup?.errors?.doesMatchEmail && !efc.confirmEmail?.errors?.required && efc.confirmEmail?.touched">Confirm Email field doesn't match with Email field</p>
+            </div>
           </form>
         </div>
 
         <div class="ui segment">
-          <form [formGroup]="passwordFormGroup" class="ui form">
+          <form [formGroup]="passwordFormGroup" class="ui error form">
             <div class="grouped fields">
-              <div class="field">
-                <label>Old Password</label>
-                <input type="password"
-                       formControlName="oldPassword"
-                       name="oldPassword"
-                       placeholder="Old Password">
-              </div>
               <div class="field">
                 <label>New Password</label>
                 <input type="password"
-                       formControlName="newPassword"
-                       name="newPassword"
+                       formControlName="password"
+                       name="password"
                        placeholder="New Password">
               </div>
               <div class="field">
                 <label>Confirm Password</label>
-                <input type="password" placeholder="Confirm Password">
+                <input type="password"
+                       formControlName="confirmPassword"
+                       name="confirmPassword"
+                       placeholder="Confirm Password">
               </div>
             </div>
 
-            <div class="ui primary button" type="submit" tabindex="0" (click)="onPasswordUpdate()">Update Password</div>
+            <div [class.disabled]="!passwordFormGroup.valid" class="ui primary button" type="submit" (click)="onPasswordUpdate()">Update Password</div>
+
+            <div class="ui error message" style="text-align: left">
+              <p *ngIf="pfc.password?.errors?.required && pfc.password?.touched">Password field is required</p>
+              <p *ngIf="pfc.confirmPassword?.errors?.required && pfc.confirmPassword?.touched">Confirm Password field is required</p>
+              <p *ngIf="passwordFormGroup?.errors?.doesMatchPassword && !pfc.confirmPassword?.errors?.required && pfc.confirmPassword?.touched">Confirm Password field doesn't match with Password field</p>
+            </div>
           </form>
         </div>
       </div>
@@ -110,17 +126,20 @@
             <td>
               <div class="ui two column grid">
                 <div class="column">
-                  <div [ngClass]="{'disabled':card?.active === 0}" class="ui input">
-                    <input type="text"
-                           [ngModel]="card?.rfid?.pin"
-                           name="pinCode"
-                           placeholder="Pin Code">
-                  </div>
+                  <form>
+                    <div [ngClass]="{'disabled':card?.active === 0}" class="ui input">
+                      <input type="text"
+                             [(ngModel)]="card.rfid.pin"
+                             name="pinCode"
+                             placeholder="Pin Code"
+                             required>
+                    </div>
+                  </form>
                 </div>
                 <div class="column" style="padding-left: 50px;">
                   <div class="ui vertical animated button"
                        [ngClass]="{'primary':card?.active === 1, 'disabled':card?.active === 0}"
-                       tabindex="0">
+                       (click)="updateCard(card)">
                     <div class="hidden content">Save</div>
                     <div class="visible content">
                       <i class="save icon"></i>
