@@ -25,4 +25,4 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 Sagun Pandey | [Github Profile](https://www.github.com/sagunpandey) | [LinkedIn Profile](https://www.linkedin.com/in/sagunpandey)
 
-Shital Pandey
+Shital Pandey | [Github Profile](https://github.com/Vayuv1)
