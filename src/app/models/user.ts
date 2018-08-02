@@ -4,6 +4,7 @@ export class User {
   middleName: string;
   lastName: string;
   phone: number;
+  role: number;
   email: string;
   balance: number;
   userRfids: UserRfid[];
