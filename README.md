@@ -1,4 +1,4 @@
-# SmartYatayatWeb
+# Smart Yatayat Web
 
 User Interface for 'Smart Yatayat', an idea for a smart transportation system.
 
@@ -21,8 +21,14 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
+
+## Companion Projects
+
+[Smart Yatayat](https://www.github.com/sagunpandey) | A RESTful API Server 
+
+
 ## Contributors
 
 Sagun Pandey | [Github Profile](https://www.github.com/sagunpandey) | [LinkedIn Profile](https://www.linkedin.com/in/sagunpandey)
 
-Shital Pandey
+Shital Pandey | [Github Profile](https://github.com/Vayuv1)
